@@ -9,7 +9,7 @@ node {
 
     stage('Build image') {
   
-       app = docker.build("evilpandas/test")
+       app = docker.build("evilpandas/jenkins-test")
     }
 
     stage('Test image') {
