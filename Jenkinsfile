@@ -24,6 +24,10 @@ node {
         app.inside {
             sh 'echo "Tests passed"'
         }
+        
+        app.inside {
+          sh 'printenv'
+        }
     }
 
     stage('Push image') {
