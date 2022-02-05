@@ -1,22 +1,18 @@
-def app
-
-pipeline {
-  agent any
-
-    
-    checkout scm
+node {
+  
+    def app
     
     environment {
       tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
-
-/*    stage('Clone repository') {
+  
+    stage('Clone repository') {
       
 
         checkout scm
     }
-*/
-  stages {
+
+
     stage('Build image') {
   
        app = docker.build("evilpandas/jenkins-test")
@@ -46,5 +42,4 @@ pipeline {
         build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: "${tag}")]
         }
 
-  }
 }
