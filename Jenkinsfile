@@ -1,7 +1,8 @@
+def app
+
 pipeline {
   agent any
-   
-    def app
+
     
     checkout scm
     
