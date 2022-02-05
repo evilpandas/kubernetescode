@@ -18,11 +18,6 @@ node {
        app = docker.build("evilpandas/jenkins-test")
     }
 
-  stage('set docker tag') {
-    app.inside {
-       sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
-    }
-  }
   
     stage('Test image') {
   
@@ -31,12 +26,11 @@ node {
             sh 'echo "Tests passed"'
         }
         
-        app.inside {
-          sh 'printenv'
-        }
-    }
-
     stage('Push image') {
+      
+        app.inside {
+          sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
+        }
         
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
             app.push("${tag}")
@@ -44,7 +38,11 @@ node {
     }
     
     stage('Trigger ManifestUpdate') {
-                echo "triggering updatemanifestjob"
+      
+        app.inside {
+           sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
+        }
+        echo "triggering updatemanifestjob"
         build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: "${tag}")]
         }
 
