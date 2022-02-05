@@ -1,6 +1,6 @@
-node {
+pipeline {
   
-    def app
+
     
     environment {
       tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
@@ -14,8 +14,9 @@ node {
 
 
     stage('Build image') {
-  
-       app = docker.build("evilpandas/jenkins-test")
+      script {
+         app = docker.build("evilpandas/jenkins-test")
+      }
     }
 
   
@@ -29,20 +30,15 @@ node {
         
     stage('Push image') {
       
-        app.inside {
-          sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
-        }
-        
-        docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+      script {  
+          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
             app.push("${tag}")
-        }
+          }
+      }
     }
     
     stage('Trigger ManifestUpdate') {
       
-        app.inside {
-           sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
-        }
         echo "triggering updatemanifestjob"
         build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: "${tag}")]
         }
