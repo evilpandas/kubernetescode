@@ -2,7 +2,7 @@ node {
     def app
     
         environment {
-        GIT_COMMIT = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
+        tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
 
     stage('Clone repository') {
@@ -27,12 +27,12 @@ node {
     stage('Push image') {
         
         docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${GIT_COMMIT}")
+            app.push("${tag}")
         }
     }
     
     stage('Trigger ManifestUpdate') {
                 echo "triggering updatemanifestjob"
-        build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: ${GIT_COMMIT})]
+        build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: ${tag})]
         }
 }
