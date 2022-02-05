@@ -6,7 +6,8 @@ pipeline {
       tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
   
-    stage('Clone repository') {
+  stages {
+  stage('Clone repository') {
       
 
         checkout scm
@@ -43,4 +44,5 @@ pipeline {
         build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: "${tag}")]
         }
 
+}
 }
