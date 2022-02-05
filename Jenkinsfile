@@ -1,16 +1,18 @@
 node {
     def app
     
+    checkout scm
+    
     environment {
       tag = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
 
-    stage('Clone repository') {
+/*    stage('Clone repository') {
       
 
         checkout scm
     }
-
+*/
     stage('Build image') {
   
        app = docker.build("evilpandas/jenkins-test")
