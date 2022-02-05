@@ -15,6 +15,7 @@ pipeline {
         checkout scm
     }
 */
+  stages {
     stage('Build image') {
   
        app = docker.build("evilpandas/jenkins-test")
@@ -43,4 +44,6 @@ pipeline {
                 echo "triggering updatemanifestjob"
         build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: "${tag}")]
         }
+
+  }
 }
