@@ -1,4 +1,5 @@
 node {
+    agent any
     def app
     
     checkout scm
