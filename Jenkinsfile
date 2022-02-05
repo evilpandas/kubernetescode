@@ -2,16 +2,7 @@ node {
     def app
     
         environment {
-        // Using returnStdout
-        SHORTTAG = """${sh(
-                returnStdout: true,
-                script: 'echo "clang"'
-            )}""" 
-        // Using returnStatus
-        EXIT_STATUS = """${sh(
-                returnStatus: true,
-                script: 'exit 1'
-            )}"""
+        GIT_COMMIT = sh(returnStdout: true, script: "git rev-parse --short=10 HEAD").trim()
     }
 
     stage('Clone repository') {
