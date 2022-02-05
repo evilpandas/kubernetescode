@@ -33,6 +33,6 @@ node {
     
     stage('Trigger ManifestUpdate') {
                 echo "triggering updatemanifestjob"
-                build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: GIT_COMMIT)]
+        build job: 'updatemanifest', parameters: [string(name: 'DOCKERTAG', value: ${GIT_COMMIT})]
         }
 }
