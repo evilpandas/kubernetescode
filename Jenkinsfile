@@ -1,4 +1,5 @@
 pipeline {
+  agent any
   
 
     
@@ -25,10 +26,11 @@ pipeline {
   
     stage('Test image') {
   
-
-        app.inside {
-            sh 'echo "Tests passed"'
-        }
+      steps {
+          app.inside {
+              sh 'echo "Tests passed"'
+          }
+      }
     }
         
     stage('Push image') {
