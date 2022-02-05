@@ -18,6 +18,12 @@ node {
        app = docker.build("evilpandas/jenkins-test")
     }
 
+  stage('set docker tag') {
+    app.inside {
+       sh 'export tag=git rev-parse --short=10 HEAD | trim'
+    }
+  }
+  
     stage('Test image') {
   
 
