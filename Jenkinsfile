@@ -20,7 +20,7 @@ node {
 
   stage('set docker tag') {
     app.inside {
-       sh 'export tag=git rev-parse --short=10 HEAD | trim'
+       sh 'export tag=`git rev-parse --short=10 HEAD | trim`'
     }
   }
   
