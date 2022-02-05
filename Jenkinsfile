@@ -1,5 +1,6 @@
-node {
-    agent any
+pipeline {
+  agent any
+   
     def app
     
     checkout scm
