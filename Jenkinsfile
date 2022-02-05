@@ -15,8 +15,10 @@ pipeline {
 
 
     stage('Build image') {
-      script {
-         app = docker.build("evilpandas/jenkins-test")
+      steps {
+        script {
+           app = docker.build("evilpandas/jenkins-test")
+        }
       }
     }
 
@@ -30,11 +32,12 @@ pipeline {
     }
         
     stage('Push image') {
-      
-      script {  
-          docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
-            app.push("${tag}")
-          }
+      steps {
+        script {  
+            docker.withRegistry('https://registry.hub.docker.com', 'dockerhub') {
+              app.push("${tag}")
+            }
+         }
       }
     }
     
