@@ -25,6 +25,7 @@ node {
         app.inside {
             sh 'echo "Tests passed"'
         }
+    }
         
     stage('Push image') {
       
